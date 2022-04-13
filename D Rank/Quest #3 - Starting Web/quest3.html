@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Quest 3 - Fabian Habil Ramdhan</title>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
+            body,
+            html {
+                font-family: "Inter";
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+            *,
+            *:before,
+            *:after {
+                box-sizing: inherit;
+            }
+            h1,
+            p {
+                padding: 0;
+                margin: 0;
+            }
+            .main {
+                min-height: 100vh;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                align-items: center;
+            }
+            .box {
+                margin: 16px;
+                background-color: #f8bbd0;
+                padding: 16px;
+                border-radius: 16px;
+                /* display: none; */
+            }
+            .login {
+                display: flex;
+                background-color: #f8bbd0;
+                flex-direction: column;
+                border-radius: 16px;
+                align-items: center;
+            }
+            .logged {
+                background-color: #f8bbd0;
+                flex-direction: column;
+                border-radius: 16px;
+                align-items: center;
+                display: none;
+            }
+
+            .form {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                flex-wrap: nowrap;
+            }
+            input[type="text"],
+            input[type="password"] {
+                width: 100%;
+            }
+            .judul {
+                margin-bottom: 16px;
+                width: 100%;
+                font-size: 24px;
+                text-align: center;
+            }
+            .id {
+                margin-bottom: 16px;
+                width: 100%;
+            }
+            .password {
+                margin-bottom: 8px;
+                width: 100%;
+            }
+            .notice {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-bottom: 16px;
+                text-align: center;
+            }
+            .buttonform {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+            .hide {
+                display: none;
+            }
+            button {
+                background-color: #47a386;
+                border: 0;
+                border-radius: 5px;
+                font-size: 16px;
+                padding: 4px 16px;
+            }
+            button:hover {
+                cursor: pointer;
+                opacity: 0.8;
+            }
+            .modal-container {
+                position: fixed;
+                height: 100vh;
+                width: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                justify-content: center;
+                align-items: center;
+                display: none;
+            }
+            .modal-container .show {
+                display: flex;
+            }
+            .modal {
+                background-color: white;
+                width: 50vh;
+                padding: 32px;
+                margin: 16px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                justify-content: center;
+            }
+            .show {
+                display: flex;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main">
+            <div class="box">
+                <div class="judul">
+                    <p>Login Page - Curiosity Guild #3 D Rank</p>
+                    <hr style="border: 0; height: 1px; background: #333" />
+                </div>
+                <div class="login">
+                    <div class="form">
+                        <form>
+                            <label for="username">Username</label>
+                            <div class="id">
+                                <input type="text" name="username" />
+                            </div>
+                            <label for="password">Password</label>
+                            <div class="password">
+                                <input type="password" name="password" />
+                            </div>
+                        </form>
+                        <div class="notice"></div>
+                        <div class="buttonform">
+                            <div class="buttonlogin">
+                                <button>Login</button>
+                            </div>
+                            <div class="buttonmodal">
+                                <button>Forgot</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="logged">
+                    <div class="judul">
+                        <p style="font-size: 18px">
+                            Welcome, Master fabianhabil!
+                        </p>
+                    </div>
+                    <div class="buttonform">
+                        <div class="buttonlogout">
+                            <button>Logout</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-container">
+                <div class="modal">
+                    <div class="judul">
+                        <p>Login Info</p>
+                    </div>
+                    <div>
+                        <p style="margin-bottom: 16px">
+                            Username : fabianhabil
+                        </p>
+                        <p style="margin-bottom: 16px">
+                            Password : iwillbethebest
+                        </p>
+                        <div class="buttonclose">
+                            <button>Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            const usernameform = document.querySelector(".id input");
+            const passwordform = document.querySelector(".password input");
+            const buttonlogin = document.querySelector(".buttonlogin button");
+            const buttonlogout = document.querySelector(".buttonlogout button");
+            const buttonmodal = document.querySelector(".buttonmodal button");
+            const buttonclose = document.querySelector(".buttonclose button");
+            const notice = document.querySelector(".notice");
+            const loginbox = document.querySelector(".login");
+            const loggedin = document.querySelector(".logged");
+            const modal = document.querySelector(".modal-container");
+            let username = "";
+            let password = "";
+            let error = false;
+            console.log(notice);
+            usernameform.addEventListener("keyup", (e) => {
+                username = usernameform.value;
+            });
+
+            passwordform.addEventListener("keyup", (e) => {
+                password = passwordform.value;
+                if (e.keyCode === 13) {
+                    e.preventDefault();
+                    login();
+                }
+            });
+
+            buttonlogin.addEventListener("click", login);
+            buttonlogout.addEventListener("click", logout);
+            buttonmodal.addEventListener("click", openModal);
+            buttonclose.addEventListener("click", closeModal);
+
+            function openModal() {
+                modal.classList.add("show");
+                console.log("titit");
+            }
+            console.log(modal);
+            function closeModal() {
+                modal.classList.remove("show");
+                console.log("titit");
+            }
+
+            function logout() {
+                loggedin.classList.remove("show");
+                loginbox.classList.remove("hide");
+            }
+
+            function login() {
+                if (username === "fabianhabil") {
+                    if (password === "iwillbethebest") {
+                        error = false;
+                        loginbox.classList.add("hide");
+                        loggedin.classList.add("show");
+                    } else {
+                        error = true;
+                    }
+                } else {
+                    error = true;
+                }
+                message();
+            }
+
+            function message() {
+                if (error) {
+                    let newtag = `<p style="color: red">Username Atau Password Salah!</p>`;
+                    notice.innerHTML = newtag;
+                } else {
+                    let newtag = "";
+                    notice.innerHTML = newtag;
+                    console.log("logged in");
+                }
+            }
+        </script>
+    </body>
+</html>
