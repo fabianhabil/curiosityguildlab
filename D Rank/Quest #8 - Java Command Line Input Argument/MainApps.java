@@ -1,5 +1,5 @@
 
-class MainApps {
+class MainClass {
     public static void main(String[] args) {
         boolean isError = false;
         int inputInteger[] = new int[2];
